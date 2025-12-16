@@ -3,7 +3,7 @@
 This script guides a user through selecting a CSV file and creating a bar or pie
 chart from its contents. It validates user input and provides friendly error
 messages when data cannot be graphed.
-"""
+
 from __future__ import annotations
 
 import sys
@@ -18,11 +18,11 @@ from tkinter import filedialog
 
 
 def select_csv_file() -> Path:
-    """Prompt the user to pick a CSV file via a file dialog.
+    
 
     Raises:
         ValueError: If the user cancels the file selection dialog.
-    """
+    
 
     root = tk.Tk()
     root.withdraw()
@@ -41,7 +41,7 @@ def select_csv_file() -> Path:
 
 
 def load_dataframe(path: Path) -> pd.DataFrame:
-    """Load the CSV file at ``path`` into a DataFrame."""
+
 
     if not path.exists():
         raise FileNotFoundError(f"Cannot find file: {path}")
@@ -55,8 +55,7 @@ def load_dataframe(path: Path) -> pd.DataFrame:
 
 
 def display_columns(df: pd.DataFrame) -> None:
-    """Print available columns with their data types."""
-
+    
     print("Available columns:")
     for name in df.columns:
         dtype = "numeric" if is_numeric_dtype(df[name]) else "text"
@@ -64,7 +63,7 @@ def display_columns(df: pd.DataFrame) -> None:
 
 
 def prompt_choice(prompt: str, options: Iterable[str]) -> str:
-    """Prompt the user to select an option from a fixed list."""
+    
 
     option_list: List[str] = [opt.lower() for opt in options]
     while True:
@@ -75,7 +74,7 @@ def prompt_choice(prompt: str, options: Iterable[str]) -> str:
 
 
 def prompt_column(df: pd.DataFrame, prompt: str) -> str:
-    """Prompt the user for a column name and validate it exists."""
+    
 
     available = set(df.columns)
     while True:
@@ -86,8 +85,7 @@ def prompt_column(df: pd.DataFrame, prompt: str) -> str:
 
 
 def ensure_numeric_column(df: pd.DataFrame, column: str) -> None:
-    """Ensure a column is numeric, raising a friendly error otherwise."""
-
+    
     if not is_numeric_dtype(df[column]):
         raise ValueError(
             f"Column '{column}' is not numeric. Choose a numeric column for values."
@@ -95,7 +93,7 @@ def ensure_numeric_column(df: pd.DataFrame, column: str) -> None:
 
 
 def build_bar_chart(df: pd.DataFrame) -> None:
-    """Build and show a bar chart using user-selected columns."""
+    
 
     display_columns(df)
     category_col = prompt_column(df, "Enter the column to use for categories: ")
@@ -131,7 +129,7 @@ def build_bar_chart(df: pd.DataFrame) -> None:
 
 
 def build_pie_chart(df: pd.DataFrame) -> None:
-    """Build and show a pie chart using user-selected columns."""
+    
 
     display_columns(df)
     category_col = prompt_column(df, "Enter the column to use for slice labels: ")
@@ -150,7 +148,7 @@ def build_pie_chart(df: pd.DataFrame) -> None:
 
 
 def main() -> None:
-    """Run the CSV-to-chart workflow."""
+    
 
     try:
         csv_path = select_csv_file()
